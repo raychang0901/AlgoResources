@@ -1,5 +1,11 @@
-## Final Project
+# Final Project
+### Steps:
+1. given some widths->convert to binary(wide or narrow)  ~~finish
+2. find pattern ~~ finish
+3. check C&K with formula (TODO!!)
 
+### Code:
+((TODO: check C&K))
 ```cpp
 #include<stdio.h>
 #include<iostream>
