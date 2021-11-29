@@ -1,8 +1,8 @@
 # Final Project
 ### Steps:
-1. given some widths->convert to binary(wide or narrow)  ~~finish
+1. given some widths->convert to binary(wide or narrow)
 2. find pattern ~~ finish
-3. check C&K with formula (TODO!!)
+3. check C&K with formula
 
 ### Code:
 ((TODO: check C&K))
@@ -14,48 +14,48 @@
 using namespace std;
 int n = 0;
 int wid[151];
-int s[151];
-double mnGap;
-
-
-void swap(int& a, int& b){
-    int c = b;
-    b = a;
-    a = c;
-    return;
+void solve(int t);
+int C(int *a,int n);
+int K(int *a,int n);
+int reverse(int* wid, int n);
+void swap(int& a, int& b);
+int main(){
+    scanf("%d", &n);
+    int t = 0;
+    while(n!=0){
+        solve(++t);
+        scanf("%d", &n);
+    }
 }
 void solve(int t){
-
     /*----------------------------------------------------
     transformation of width to binary
     -------------------------------------------------------*/
-    int mxNar = -1, mnWid = INT_MAX;
+    double mxNar = -1, mnNar = INT_MAX, mxWid = -1, mnWid = INT_MAX;
+    double first_nar, narC, widC;
     memset(wid, 0, sizeof(wid));
-    memset(s, 0, sizeof(s));
     for(int i = 0; i<n; ++i){
         scanf("%d", &wid[i]);
-        s[i] = wid[i];
     }
+    first_nar = mxNar = mnNar = wid[0];
+    wid[0] = 0;
     for(int i = 1; i<n; ++i){
-        double big = max(wid[i], wid[i-1]);
-        double small = min(wid[i], wid[i-1]);
-        if(big-small>=(big+small)/2*0.05){
-            if(big/small<mnGap){
-                printf("Case %d: bad code", t);
-                return;
-            }
-            mxNar = max(mxNar, int(small));
-            mnWid = min(mnWid, int(big));
-        }
+      if(wid[i]>1.1*first_nar||wid[i]<0.9*first_nar){
+        mxWid = max(int(mxWid), wid[i]);
+        mnWid = min(int(mnWid), wid[i]);
+        wid[i] = 1;
+      }
+      else{
+        mxNar = max(int(mxNar), wid[i]);
+        mnNar = max(int(mnNar), wid[i]);
+        wid[i] = 0;
+      }
     }
-    //cout<< mxNar<<mnWid<<endl;
-    for(int i = 0; i<n; ++i){
-        if(wid[i]>=mnWid){
-            wid[i] = 1;
-        }
-        else if(wid[i]<=mxNar){
-            wid[i] = 0;
-        }
+    narC = (mxNar+mnNar)/2;
+    widC = (mxWid+mnWid)/2;
+    if(mxNar>1.05*narC||mnNar<0.95*narC||mxWid>1.05*widC||mnWid<0.95*widC){
+      printf("bad code\n");
+      return;
     }
     // for(int i = 0; i<n; ++i){
     //     if(i%5==0){cout<< endl;}
@@ -63,14 +63,19 @@ void solve(int t){
     // }
 
     /*----------------------------------------------------
-    reverse(?
+    Check directions ->reverse(?
     -------------------------------------------------------*/
-    for(int i = 0; i<n/2; ++i){
-        swap(wid[i], wid[n-i-1]);
+    int reverse_pattern[5]{0, 1, 1, 0, 0};
+    bool isReverse = true;
+    for(int i = 0; i<5; ++i){
+      if(wid[i]!=reverse_pattern[i]){isReverse = false;break;}
+    }
+    if(isReverse){
+      reverse(wid, n);
     }
     for(int i = 0; i<n; ++i){
         if(i%6==0){cout<< endl;}
-        cout<< wid[i];
+        cout<< wid[i]<<" ";
     }
     cout<< endl;
     /*----------------------------------------------------
@@ -93,11 +98,10 @@ void solve(int t){
     pattern[1] = 9;
     pattern[4] = 10; //dash
     pattern[6] = 11; //stop start
-
+    int good = 1;
     int curr = 0;
     int currN = 0;
     int buf = 0;
-    int good = 1;
     int ans[31];
     int ansN = 0;
     memset(ans, 0, sizeof(ans));
@@ -126,21 +130,34 @@ void solve(int t){
     for(int i = 0; i<ansN; ++i){
         cout<< ans[i]<<" ";
     }
-    
-    /*----------------------------------------------------
-    TODO:calculate C K
-    -------------------------------------------------------*/
-
 }
 
-int main(){
-    mnGap = 1.9/1.05;
-    scanf("%d", &n);
-    int t = 0;
-    while(n!=0){
-        solve(++t);
-        scanf("%d", &n);
+int C(int *a,int n){
+    int sum=0;
+    for(int i=1;i<n+1;++i){
+        sum+=((n-i)%10+1)*a[i-1];
+
     }
+    return sum%11;
+}
+int K(int *a,int n){
+    int sum=0;
+    for(int i=1;i<n+1;++i){
+        sum+=((n-i+1)%9+1)*a[i-1];
+    }
+    sum+=C(a,n);
+    return sum%11;
+}
+int reverse(int* wid, int n){
+  for(int i = 0; i<n/2; ++i){
+      swap(wid[i], wid[n-i-1]);
+  }
+}
+void swap(int& a, int& b){
+    int c = b;
+    b = a;
+    a = c;
+    return;
 }
 
 ```
