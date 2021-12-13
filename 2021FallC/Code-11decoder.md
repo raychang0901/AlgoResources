@@ -19,12 +19,16 @@ int C(int *a,int n);
 int K(int *a,int n);
 int reverse(int* wid, int n);
 void swap(int& a, int& b);
+FILE* fptr;
 int main(){
-    scanf("%d", &n);
+    if((fptr = fopen("code.txt", "r"))==NULL){
+      puts("File could not be opened");
+    }
+    fscanf(fptr, "%d", &n);
     int t = 0;
     while(n!=0){
         solve(++t);
-        scanf("%d", &n);
+        fscanf(fptr, "%d", &n);
     }
 }
 void solve(int t){
@@ -35,7 +39,7 @@ void solve(int t){
     double first_nar, narC, widC;
     memset(wid, 0, sizeof(wid));
     for(int i = 0; i<n; ++i){
-        scanf("%d", &wid[i]);
+        fscanf(fptr, "%d", &wid[i]);
     }
     first_nar = mxNar = mnNar = wid[0];
     wid[0] = 0;
@@ -47,16 +51,24 @@ void solve(int t){
       }
       else{
         mxNar = max(int(mxNar), wid[i]);
-        mnNar = max(int(mnNar), wid[i]);
+        mnNar = min(int(mnNar), wid[i]);
         wid[i] = 0;
       }
     }
+    //cout<< mxNar<<" "<<mnNar<<" "<<mxWid<<" "<<mnWid<<endl;
     narC = (mxNar+mnNar)/2;
     widC = (mxWid+mnWid)/2;
     if(mxNar>1.05*narC||mnNar<0.95*narC||mxWid>1.05*widC||mnWid<0.95*widC){
-      printf("bad code\n");
+      printf("Case %d: bad code\n", t);
       return;
     }
+    double mnGap = (2*0.95)/(1*1.05);
+    if(mxWid/mnNar<mnGap){
+      printf("Case %d: bad code\n", t);
+      return;
+    }
+    // cout<< endl;
+    // cout<< widC<<" "<<narC<<endl;
     // for(int i = 0; i<n; ++i){
     //     if(i%5==0){cout<< endl;}
     //     cout<< wid[i];
@@ -126,26 +138,52 @@ void solve(int t){
             buf = 1;
         }
     }
-
+    if(ans[0]!=11||ans[ansN-1]!=11){printf("Case %d: bad code\n", t);return;}
     for(int i = 0; i<ansN; ++i){
-        cout<< ans[i]<<" ";
+        //cout<< ans[i]<<" ";
+        if(ans[i]==-1){
+          printf("Case %d: bad code\n", t);
+          return;
+        }
     }
+    int c = C(ans, ansN);
+    int k = K(ans, ansN);
+    if(c!=ans[ansN-3]){
+      printf("Case %d: bad C\n", t);
+      return;
+    }
+    if(k!=ans[ansN-2]){
+      printf("Case %d: bad K\n", t);
+      return;
+    }
+
+    printf("Case %d: ", t);
+    for(int i = 1; i<ansN-3; ++i){
+      if(ans[i]==10){
+        printf("%s", "-");
+      }
+      else{
+        printf("%d", ans[i]);
+      }
+    }
+    printf("\n");
+    return;
 }
 
 int C(int *a,int n){
     int sum=0;
-    for(int i=1;i<n+1;++i){
-        sum+=((n-i)%10+1)*a[i-1];
-
+    int N = n-3;
+    for(int i=1;i<N;++i){
+      sum+=((N-i-1)%10+1)*a[i];
     }
     return sum%11;
 }
 int K(int *a,int n){
     int sum=0;
-    for(int i=1;i<n+1;++i){
-        sum+=((n-i+1)%9+1)*a[i-1];
+    int N = n-2;
+    for(int i=1;i<N;++i){
+        sum+=((N-i-1)%9+1)*a[i];
     }
-    sum+=C(a,n);
     return sum%11;
 }
 int reverse(int* wid, int n){
@@ -159,5 +197,6 @@ void swap(int& a, int& b){
     a = c;
     return;
 }
+
 
 ```
