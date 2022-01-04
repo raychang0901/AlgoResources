@@ -41,6 +41,10 @@ void solve(int t){
     for(int i = 0; i<n; ++i){
         fscanf(fptr, "%d", &wid[i]);
     }
+    if((n+1)%6!=0){
+      printf("Case %d: bad code\n", t);
+      return;
+    }
     first_nar = mxNar = mnNar = wid[0];
     wid[0] = 0;
     for(int i = 1; i<n; ++i){
@@ -58,6 +62,8 @@ void solve(int t){
     //cout<< mxNar<<" "<<mnNar<<" "<<mxWid<<" "<<mnWid<<endl;
     narC = (mxNar+mnNar)/2;
     widC = (mxWid+mnWid)/2;
+    // cout<< mxNar<<" "<<narC<<" "<<mnNar<<endl;
+    // cout<< mxWid<<" "<<widC<<" "<<mnWid<<endl;
     if(mxNar>1.05*narC||mnNar<0.95*narC||mxWid>1.05*widC||mnWid<0.95*widC){
       printf("Case %d: bad code\n", t);
       return;
@@ -86,10 +92,10 @@ void solve(int t){
       reverse(wid, n);
     }
     for(int i = 0; i<n; ++i){
-        if(i%6==0){cout<< endl;}
-        cout<< wid[i]<<" ";
+        //if(i%6==0){cout<< endl;}
+        //cout<< wid[i]<<" ";
     }
-    cout<< endl;
+    //cout<< endl;
     /*----------------------------------------------------
     decode
     {16, 18, 3, 20, 24, 5, 9, 17, 1, 4, 6}
@@ -197,6 +203,5 @@ void swap(int& a, int& b){
     a = c;
     return;
 }
-
 
 ```
