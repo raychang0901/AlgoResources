@@ -1,22 +1,41 @@
-```cpp
+#include "bits/stdc++.h"
+
 #define ll long long
 #define vt vector
 #define pb push_back
 #define iipair pair<int, int>
-#define cipair pair<char, int>
-#define icpair pair<int, char>
-#define ispair pair<int, string>
-#define sipair pair<string, int>
 #define llpair pair<ll, ll>
-#define MOD 1e9+7
-#define iMat vector<vector<int>>
-#define cMat vector<vector<char>>
+#define fir first
+#define sec second
 #define mp make_pair
 
 using namespace std;
 
-//support functions
 
+ll pow(ll x, ll y, ll p) {
+ if (y==0) return 1;
+ if (y & 1) return (pow(x, y-1,p)*x)%p;
+ // otherwise y is even
+ ll t=pow(x, y/2, p);
+ return (t*t)%p;
+}
+
+ll gcd(ll a, ll b){
+    if(b==0){return a;}
+    return gcd(b, a%b);
+}
+//support functions
+//cout vt<vt<T>>
+template<class T>
+ostream& operator<<(ostream& os, vt<vt<T>> arr){
+    for(auto& i:arr){
+        for(auto& j:i){
+            os<< j<<" ";
+        }
+        os<<"\n";
+    }
+    return os;
+}
 // cout<< vector<pair<T, T>>;
 template<class T>
 ostream& operator<<(ostream& os, vt<pair<T, T>> arr){
@@ -24,42 +43,6 @@ ostream& operator<<(ostream& os, vt<pair<T, T>> arr){
     os<< "{"<<ele.first<<","<<ele.second<<"} ";
   os<<endl;
   return os;
-}
-// sum of 2 interger vector
-vt<int> operator+(vt<int>v1, vt<int>v2){
-  int m = v1.size(), n = v2.size();
-  int mxSize = max(m, n);
-  vt<int> ans(mxSize, 0);
-  for(int i = 0; i<mxSize; ++i){
-    if(i<m&&i<n){
-      ans[i] = v1[i]+v2[i];
-    }
-    else if(i<m){
-      ans[i] = v1[i];
-    }
-    else{
-      ans[i] = v2[i];
-    }
-  }
-  return ans;
-}
-// difference of 2 interger vector
-vt<int> operator-(vt<int>v1, vt<int>v2){
-  int m = v1.size(), n = v2.size();
-  int mxSize = max(m, n);
-  vt<int> ans(mxSize, 0);
-  for(int i = 0; i<mxSize; ++i){
-    if(i<m&&i<n){
-      ans[i] = v1[i]-v2[i];
-    }
-    else if(i<m){
-      ans[i] = v1[i];
-    }
-    else{
-      ans[i] = -v2[i];
-    }
-  }
-  return ans;
 }
 //cout<< vector<T>;
 template<class T>
@@ -104,4 +87,17 @@ vector<T> PRE(vector<T> arr){
   }
   return pre;
 }
-```
+
+//solution
+void solve(){
+}
+int main(){
+  ios_base::sync_with_stdio(false);
+  int t;
+  cin>>t;
+  while(t--){
+    solve();
+  }
+  //solve();
+
+}
