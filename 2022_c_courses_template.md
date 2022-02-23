@@ -13,6 +13,17 @@
 #include <stack>
 #include <set>
 
+
+#define ll long long
+#define vt vector
+#define pb push_back
+#define iipair pair<int, int>
+#define llpair pair<ll, ll>
+#define fir first
+#define sec second
+#define mp make_pair
+#define endl '\n'
+
 using namespace std;
 
 int main() {
